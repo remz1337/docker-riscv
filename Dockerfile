@@ -11,7 +11,7 @@
 # found at https://github.com/riscv/riscv-tools.
 
 # Pull base image
-FROM centos:7.6.1810
+FROM ubuntu:18.04
 
 # Set the maintainer
 #MAINTAINER Stephen Bates (sbates130272) <sbates@raithlin.com>
@@ -35,53 +35,48 @@ FROM centos:7.6.1810
 
 
 # Install some base tools that we will need to get the risc-v toolchain working.
-RUN yum update -y && yum install -y \
+RUN apt-get update -y && apt-get install -y --fix-missing \
  autoconf \
  automake \
  autotools-dev \
- bison \
  bc \
+ bison \
  build-essential \
  curl \
  device-tree-compiler \
- expat-devel \
  flex \
  gawk \
- gcc \
- gcc-c++ \
- gmp-devel \
+ git \
  gperf \
  libexpat-dev \
- libmpc-devel \
  libmpc-dev \
  libmpfr-dev \
  libgmp-dev \
- libusb-1.0-0-dev \
  libtool \
- mpfr-devel \
+ libusb-1.0-0-dev \ 
+ texinfo \ 
  patchutils \
  pkg-config \
  python3 \
- texinfo \
- zlib-devel \
  zlib1g-dev
+ 
 
 # Make a working folder and set the necessary environment variables.
-ENV RISCVBASE /opt/riscv
-ENV RISCV $RISCVBASE/toolchain
+ENV RISCV /opt/riscv
 ENV RISCVHOME /home/riscv
 ENV NUMJOBS 1
-RUN mkdir -p $RISCVBASE && mkdir -p $RISCVHOME
+RUN mkdir -p $RISCV && mkdir -p $RISCVHOME
 
 # Add the GNU utils bin folder to the path.
-ENV PATH /opt/riscv/bin:$PATH
+ENV PATH $RISCV/bin:$PATH
 
 # Get and build the toolchain for RISCV.
 WORKDIR $RISCVHOME/
-RUN git clone --recursive https://github.com/riscv/riscv-gnu-toolchain && ./configure --prefix=/opt/riscv && make
+RUN git clone --recursive https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain && ./configure --prefix=$RISCV && make
 
 # Get and build the RISC-V tools
-RUN git clone --recursive https://github.com/riscv/riscv-tools.git && ./build.sh
+WORKDIR $RISCVHOME/
+RUN git clone --recursive https://github.com/riscv/riscv-tools.git && cd riscv-tools && ./build.sh
 
 # Run a simple test to make sure at least spike, pk and the Newlib
 # compiler are setup correctly.
