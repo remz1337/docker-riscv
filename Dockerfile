@@ -82,9 +82,7 @@ RUN git clone --recursive https://github.com/riscv/riscv-tools.git && cd riscv-t
 # compiler are setup correctly.
 RUN mkdir -p $RISCVHOME/test
 WORKDIR $RISCVHOME/test
-RUN echo '#include <stdio.h>\n int main(void) { printf("Hello \
-  world!\\n"); return 0; }' > hello.c && \
-  riscv64-unknown-elf-gcc -o hello hello.c && spike pk hello
+RUN echo '#include <stdio.h> int main(void) { printf("Hello world!"); return 0; }' > hello.c && riscv64-unknown-elf-gcc -o hello hello.c && spike pk hello
 
 # Set the WORKDIR to be in the $RISCV folder and we are done!
 WORKDIR $RISCV
