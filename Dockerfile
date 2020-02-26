@@ -80,9 +80,9 @@ RUN git clone --recursive https://github.com/riscv/riscv-tools.git && cd riscv-t
 
 # Run a simple test to make sure at least spike, pk and the Newlib
 # compiler are setup correctly.
-RUN mkdir -p $RISCVHOME/test
-WORKDIR $RISCVHOME/test
-RUN echo '#include <stdio.h> int main(void) { printf("Hello world!"); return 0; }' > hello.c && riscv64-unknown-elf-gcc -o hello hello.c && spike pk hello
+#RUN mkdir -p $RISCVHOME/test
+#WORKDIR $RISCVHOME/test
+#RUN echo '#include <stdio.h> int main(void) { printf("Hello world!"); return 0; }' > hello.c && riscv64-unknown-elf-gcc -o hello hello.c && spike pk hello
 
 # Set the WORKDIR to be in the $RISCV folder and we are done!
 WORKDIR $RISCV
