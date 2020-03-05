@@ -11,7 +11,7 @@
 # found at https://github.com/riscv/riscv-tools.
 
 # Pull base image
-FROM ubuntu:18.04 AS CC_base
+FROM ubuntu:18.04 AS base
 
 # Set the maintainer
 MAINTAINER Rémi Bédard-Couture (remz1337) <remi.bc@inforem.ca>
