@@ -55,7 +55,7 @@
 #RUN git clone --recursive https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain && ./configure --prefix=$RISCV && make
 
 ####### CC_tools
-FROM remz1337/docker-riscv:CC_toolchain
+FROM remz1337/docker-riscv:toolchain AS tools
 # Get and build the RISC-V tools
 WORKDIR $RISCVHOME/
 RUN git clone --recursive https://github.com/riscv/riscv-tools.git && cd riscv-tools && ./build.sh
