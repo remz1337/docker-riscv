@@ -11,10 +11,10 @@
 # found at https://github.com/riscv/riscv-tools.
 
 # Pull base image
-FROM ubuntu:18.04
+FROM ubuntu:18.04 AS CC_base
 
 # Set the maintainer
-#MAINTAINER Rémi Bédard-Couture (remz1337) <remi.bc@inforem.ca>
+MAINTAINER Rémi Bédard-Couture (remz1337) <remi.bc@inforem.ca>
 
 # Install some base tools that we will need to get the risc-v toolchain working.
 RUN apt-get update -y && apt-get install -y --fix-missing \
@@ -50,13 +50,15 @@ RUN mkdir -p $RISCV && mkdir -p $RISCVHOME
 # Add the GNU utils bin folder to the path.
 ENV PATH $RISCV/bin:$PATH
 
+######### CC_toolchain
 # Get and build the toolchain for RISCV.
-WORKDIR $RISCVHOME/
-RUN git clone --recursive https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain && ./configure --prefix=$RISCV && make
+#WORKDIR $RISCVHOME/
+#RUN git clone --recursive https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain && ./configure --prefix=$RISCV && make
 
+######### CC_tools
 # Get and build the RISC-V tools
-WORKDIR $RISCVHOME/
-RUN git clone --recursive https://github.com/riscv/riscv-tools.git && cd riscv-tools && ./build.sh
+#WORKDIR $RISCVHOME/
+#RUN git clone --recursive https://github.com/riscv/riscv-tools.git && cd riscv-tools && ./build.sh
 
 # Set the WORKDIR to be in the $RISCV folder and we are done!
-WORKDIR $RISCV
+#WORKDIR $RISCV
