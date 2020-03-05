@@ -51,7 +51,7 @@
 #ENV PATH $RISCV/bin:$PATH
 
 ######## CC_toolchain
-FROM remz1337/docker-riscv:CC_base AS CC_toolchain
+FROM remz1337/docker-riscv:base AS toolchain
 # Get and build the toolchain for RISCV.
 WORKDIR $RISCVHOME/
 RUN git clone --recursive https://github.com/riscv/riscv-gnu-toolchain && cd riscv-gnu-toolchain && ./configure --prefix=$RISCV && make
